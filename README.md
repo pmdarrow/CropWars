@@ -5,8 +5,8 @@ Rules
 -----
 1. Chop one of the following images into 1000 equally sized images that comprise
    entire image, 24 times. This should result in 24,000 images.
-       - [https://dl.dropbox.com/u/37082018/image.bmp](image.bmp)
-       - [https://dl.dropbox.com/u/37082018/image.tiff](image.tiff)
+       - [image.bmp](https://dl.dropbox.com/u/37082018/image.bmp)
+       - [image.tiff](https://dl.dropbox.com/u/37082018/image.tiff)
 2. Can be written in any reasonable language. If you want to utilize CUDA,
    OpenCL or write LOLCODE, go for it. It simply has to work and be fast.
    Feel free to use any third party libraries along the way.
