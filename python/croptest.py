@@ -2,10 +2,11 @@
 
 # Test: Crop a raw image into 1000 pieces 24 times
 #
-# Results:
-#  Function=multithreaded_crop_test, Time=89.3057699203
-#  Function=multiprocessed_crop_test, Time=57.3295860291
+# Results: 
+#  Function=multithreaded_crop_test, Time=8.36515402794
+#  Function=multiprocessed_crop_test, Time=5.3536491394
 
+import os
 from time import time
 from PIL import Image
 from multiprocessing import Pool
@@ -20,7 +21,8 @@ def st_time(func):
         return r
     return st_func
 
-def crop(image_name, num_crop_x=100, num_crop_y=100, out_prefix=""):
+# only create 1,000 images, not 10,000
+def crop(image_name, num_crop_x=50, num_crop_y=20, out_prefix=""):
     im = Image.open(image_name)
     width, height = im.size
     crop_width = width / num_crop_x
@@ -30,11 +32,21 @@ def crop(image_name, num_crop_x=100, num_crop_y=100, out_prefix=""):
     bottom_y = crop_height
 
     for i in xrange(1, num_crop_y):
+        # split files up into dirs, so the FS doesn't hate us so much
+        dirname = "cropped/%s-%s" % (out_prefix, i)
+        imgs = []
+        if not os.path.exists(dirname):
+            os.makedirs(dirname)
         for j in xrange(1, num_crop_x):
             cropped = im.crop((left_x, top_y, right_x, bottom_y))
-            cropped.save("cropped/%simg%s-%s.bmp" % (out_prefix, i, j))
+            imgs.append(
+                    (cropped, "%s/%simg%s-%s.jpg" % (dirname,out_prefix, i, j))
+                    )
             left_x += crop_width
             right_x += crop_width
+        # push IO out in chunks.
+        for img in imgs:
+            img[0].save(img[1])
         left_x = 0
         right_x = crop_width
         top_y += crop_height
