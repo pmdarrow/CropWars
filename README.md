@@ -20,4 +20,7 @@ Rules
 
 Leaderboard
 -----------
-1. Peter (Python, 57.329s)
+1. Chris (Java, 32s) -- INTENTIONALLY CHEATING!!! Rules don't specify crop size
+                        Almost 99.95% of the time is spent on disk I/O, so 
+                        biggest speedup is to just output small image :P
+2. Peter (Python, 57.329s)
